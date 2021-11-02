@@ -13,8 +13,8 @@ export class Category {
   @Field()
   color: string
 
-	@Field((type) => [Post], { nullable: true })
-  posts?: Post[]
+  @Field((type) => [Post], { nullable: true })
+	posts?: Post[]
 
   @Field((type) => GraphQLISODateTime)
   createdAt: Date

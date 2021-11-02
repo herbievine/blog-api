@@ -14,7 +14,9 @@ model Post {
   description   String
   relativeImage String     @map("relative_image")
   rawMdx        String     @map("raw_mdx")
-  views         Int        @default(1)
+  published     Boolean    @default(true)
+  views         Int        @default(0)
+  likes         Int        @default(0)
   categories    Category[]
   createdAt     DateTime   @default(now()) @map("created_at")
   updatedAt     DateTime   @updatedAt @map("updated_at")

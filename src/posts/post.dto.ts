@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { InputType, Field, Int } from '@nestjs/graphql'
-import { IsString, IsInt, IsOptional } from 'class-validator'
+import { IsString, IsInt, IsOptional, IsBoolean } from 'class-validator'
 import { Category } from 'src/categories/category.entity'
 
 @InputType()
@@ -25,12 +25,14 @@ export class PostCreateDto {
   @Field()
   rawMdx: string
 
-  @IsInt()
-  @Field((type) => Int, { defaultValue: 1 })
-  views: number
+  @IsOptional()
+  @IsBoolean()
+  @Field((type) => Boolean)
+  published?: boolean
 
-  @Field((type) => [Category])
-  categories: Category[]
+  // @IsOptional()
+  // @Field((type) => [Category])
+  // categories: Category[]
 }
 
 @InputType()
@@ -59,7 +61,7 @@ export class PostUpdateDto {
   @IsString()
   @Field({nullable: true})
   rawMdx?: string
-h
+
   @IsOptional()
   @IsInt()
   @Field((type) => Int, {nullable: true})

@@ -20,10 +20,16 @@ export class Post {
   relativeImage: string
 
   @Field()
-  rawMdx: string
+	rawMdx: string
+	
+	@Field((type) => Boolean)
+  published: boolean
 
-  @Field((type) => Int, { defaultValue: 1 })
+  @Field((type) => Int)
 	views: number
+
+	@Field((type) => Int)
+	likes: number
 	
 	@Field((type) => [Category], { nullable: true })
 	categories?: Category[]

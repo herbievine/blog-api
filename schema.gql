@@ -23,7 +23,9 @@ type Post {
   description: String!
   relativeImage: String!
   rawMdx: String!
+  published: Boolean!
   views: Int!
+  likes: Int!
   categories: [Category!]
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -46,7 +48,7 @@ input PostCreateDto {
   description: String!
   relativeImage: String!
   rawMdx: String!
-  views: Int = 1
+  published: Boolean!
 }
 
 input PostUpdateDto {
