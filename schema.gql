@@ -2,11 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Category {
+type CategoryEntity {
   id: String!
   name: String!
   color: String!
-  posts: [Post!]
+  posts: [PostEntity!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -16,7 +16,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Post {
+type PostEntity {
   id: String!
   title: String!
   slug: String!
@@ -26,29 +26,39 @@ type Post {
   published: Boolean!
   views: Int!
   likes: Int!
-  categories: [Category!]
+  categories: [CategoryEntity!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type Query {
-  getPosts: [Post!]!
-  getPost(slug: String!): Post!
+  getPosts: [PostEntity!]!
+  getPost(slug: String!): PostEntity!
+  getCategories: [CategoryEntity!]!
+  getCategory(name: String!): CategoryEntity!
 }
 
 type Mutation {
-  createPost(payload: PostCreateDto!): Post!
-  updatePost(payload: PostUpdateDto!, id: String!): Post!
-  deletePost(id: String!): Post!
+  createPost(relations: [CategoryCreateDto!], payload: PostCreateDto!): PostEntity!
+  updatePost(relations: [CategoryCreateDto!], payload: PostUpdateDto!, id: String!): PostEntity!
+  deletePost(id: String!): PostEntity!
+  createCategory(relations: [PostCreateDto!], payload: CategoryCreateDto!): CategoryEntity!
+  updateCategory(payload: CategoryUpdateDto!, id: String!): CategoryEntity!
+  deleteCategory(id: String!): CategoryEntity!
+}
+
+input CategoryCreateDto {
+  name: String!
+  color: String!
 }
 
 input PostCreateDto {
   title: String!
-  slug: String!
+  slug: String
   description: String!
   relativeImage: String!
   rawMdx: String!
-  published: Boolean!
+  published: Boolean
 }
 
 input PostUpdateDto {
@@ -58,4 +68,9 @@ input PostUpdateDto {
   relativeImage: String
   rawMdx: String
   views: Int
+}
+
+input CategoryUpdateDto {
+  name: String
+  color: String
 }

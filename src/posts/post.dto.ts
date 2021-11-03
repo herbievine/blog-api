@@ -1,17 +1,17 @@
 import 'reflect-metadata'
 import { InputType, Field, Int } from '@nestjs/graphql'
-import { IsString, IsInt, IsOptional, IsBoolean } from 'class-validator'
-import { Category } from 'src/categories/category.entity'
+import { IsString, IsInt, IsOptional, IsBoolean, IsAlpha } from 'class-validator'
 
-@InputType()
+@InputType('PostCreateDto')
 export class PostCreateDto {
   @IsString()
   @Field()
   title: string
 
-  @IsString()
-  @Field()
-  slug: string
+  @IsOptional()
+  @IsAlpha()
+  @Field((type) => String, { nullable: true })
+  slug?: string
 
   @IsString()
   @Field()
@@ -27,43 +27,39 @@ export class PostCreateDto {
 
   @IsOptional()
   @IsBoolean()
-  @Field((type) => Boolean)
+  @Field((type) => Boolean, { nullable: true })
   published?: boolean
-
-  // @IsOptional()
-  // @Field((type) => [Category])
-  // categories: Category[]
 }
 
 @InputType()
 export class PostUpdateDto {
   @IsOptional()
   @IsString()
-  @Field({nullable: true})
+  @Field({ nullable: true })
   title?: string
 
   @IsOptional()
-  @IsString()
-  @Field({nullable: true})
+  @IsAlpha()
+  @Field({ nullable: true })
   slug?: string
 
   @IsOptional()
   @IsString()
-  @Field({nullable: true})
+  @Field({ nullable: true })
   description?: string
 
   @IsOptional()
   @IsString()
-  @Field({nullable: true})
+  @Field({ nullable: true })
   relativeImage?: string
 
   @IsOptional()
   @IsString()
-  @Field({nullable: true})
+  @Field({ nullable: true })
   rawMdx?: string
 
   @IsOptional()
   @IsInt()
-  @Field((type) => Int, {nullable: true})
+  @Field((type) => Int, { nullable: true })
   views?: number
 }

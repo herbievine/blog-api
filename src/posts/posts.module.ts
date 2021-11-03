@@ -4,6 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { PostsResolver } from './posts.resolver'
 
 @Module({
-  providers: [PrismaService, LoggerService, PostsResolver],
+  providers: [PrismaService, LoggerService, PostsResolver]
 })
 export class PostsModule {}

@@ -1,6 +1,6 @@
 module.exports = {
   "singleQuote": true,
-  "trailingComma": "all",
+  "trailingComma": "none",
   "tabWidth": 2,
   "semi": false
 }

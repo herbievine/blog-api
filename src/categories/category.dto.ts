@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 import { InputType, Field, Int } from '@nestjs/graphql'
-import { IsString, IsInt, IsOptional, IsBoolean } from 'class-validator'
+import { IsString, IsOptional, IsAlpha } from 'class-validator'
 import { Post } from 'src/posts/post.entity'
 
-@InputType()
+@InputType('CategoryCreateDto')
 export class CategoryCreateDto {
-  @IsString()
+  @IsAlpha()
   @Field()
   name: string
 
@@ -21,12 +21,12 @@ export class CategoryCreateDto {
 @InputType()
 export class CategoryUpdateDto {
   @IsOptional()
-  @IsString()
-  @Field({nullable: true})
+  @IsAlpha()
+  @Field({ nullable: true })
   name?: string
 
   @IsOptional()
   @IsString()
-  @Field({nullable: true})
+  @Field({ nullable: true })
   color?: string
 }
