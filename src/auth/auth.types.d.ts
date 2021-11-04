@@ -5,7 +5,7 @@ export namespace Auth {
   type CleanUser = Omit<User, 'password'>
 
   type BasicUser = {
-    email: string,
+    email: string
     password: string
   }
 

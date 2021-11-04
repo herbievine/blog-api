@@ -17,7 +17,7 @@ import { UsersService } from 'src/users/users.service'
       signOptions: {
         expiresIn: '30d'
       }
-    }),
+    })
   ],
   providers: [
     PrismaService,
@@ -26,6 +26,6 @@ import { UsersService } from 'src/users/users.service'
     AuthService,
     UsersService
   ],
-  controllers: [AuthController],
+  controllers: [AuthController]
 })
 export class AuthModule {}

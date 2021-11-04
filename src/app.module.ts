@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
+import { ThrottlerModule } from '@nestjs/throttler'
 import { join } from 'path'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -12,7 +13,18 @@ import { AuthModule } from './auth/auth.module'
 @Module({
   imports: [
     GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'schema.gql')
+      autoSchemaFile: join(process.cwd(), 'schema.gql'),
+      cors: {
+        origin:
+          process.env.NODE_ENV === 'production'
+            ? '.herbievine.com'
+            : 'http://localhost:4000',
+        credentials: true
+      }
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 20
     }),
     PostsModule,
     CategoriesModule,
