@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { InputType, Field, Int } from '@nestjs/graphql'
-import { IsString, IsInt, IsOptional, IsBoolean, IsAlpha } from 'class-validator'
+import { IsString, IsInt, IsOptional, IsBoolean } from 'class-validator'
 
 @InputType('PostCreateDto')
 export class PostCreateDto {
@@ -9,7 +9,7 @@ export class PostCreateDto {
   title: string
 
   @IsOptional()
-  @IsAlpha()
+  @IsString()
   @Field((type) => String, { nullable: true })
   slug?: string
 
@@ -39,7 +39,7 @@ export class PostUpdateDto {
   title?: string
 
   @IsOptional()
-  @IsAlpha()
+  @IsString()
   @Field({ nullable: true })
   slug?: string
 

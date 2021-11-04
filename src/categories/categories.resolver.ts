@@ -42,12 +42,12 @@ export class CategoriesResolver {
   async getCategories(): Promise<Category[]> {
     const { category } = this.prismaService
 
-    return category.findMany({ include: { posts: true }})
+    return category.findMany({ include: { posts: true } })
   }
 
   @Query((returns) => Category)
   async getCategory(
-    @Args('name', { type: () => String }) name: string,
+    @Args('name', { type: () => String }) name: string
   ): Promise<Category | null> {
     const { category } = this.prismaService
 
@@ -57,26 +57,27 @@ export class CategoriesResolver {
   @Mutation((returns) => Category)
   async updateCategory(
     @Args('id', { type: () => String }) id: string,
-    @Args('payload', { type: () => CategoryUpdateDto }) payload: CategoryUpdateDto,
+    @Args('payload', { type: () => CategoryUpdateDto })
+    payload: CategoryUpdateDto
   ): Promise<Category> {
     const { category } = this.prismaService
 
     return category.update({
       where: { id },
       data: { ...payload },
-       include: { posts: true }
+      include: { posts: true }
     })
   }
 
   @Mutation((returns) => Category)
   async deleteCategory(
-    @Args('id', { type: () => String }) id: string,
+    @Args('id', { type: () => String }) id: string
   ): Promise<Category> {
     const { category } = this.prismaService
 
     return category.delete({
       where: { id },
-       include: { posts: true }
+      include: { posts: true }
     })
   }
 }
