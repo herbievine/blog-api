@@ -44,7 +44,6 @@ type Query {
   getPost(slug: String!): PostEntity!
   getCategories: [CategoryEntity!]!
   getCategory(name: String!): CategoryEntity!
-  getUser(email: String!): UserEntity!
 }
 
 type Mutation {
@@ -55,7 +54,6 @@ type Mutation {
   updateCategory(payload: CategoryUpdateDto!, id: String!): CategoryEntity!
   deleteCategory(id: String!): CategoryEntity!
   createUser(payload: UserCreateDto!): UserEntity!
-  login: Boolean!
 }
 
 input CategoryCreateDto {

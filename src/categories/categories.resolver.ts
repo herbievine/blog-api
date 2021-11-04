@@ -3,12 +3,15 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { Category } from './category.entity'
 import { CategoryCreateDto, CategoryUpdateDto } from './category.dto'
 import { PostCreateDto } from 'src/posts/post.dto'
+import { UseGuards } from '@nestjs/common'
+import { GqlAuthGuard } from 'src/auth/guards/gql.guard'
 
 @Resolver((of) => Category)
 export class CategoriesResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Mutation((returns) => Category)
+  @UseGuards(GqlAuthGuard)
   async createCategory(
     @Args('payload', { type: () => CategoryCreateDto })
     payload: CategoryCreateDto,
@@ -55,6 +58,7 @@ export class CategoriesResolver {
   }
 
   @Mutation((returns) => Category)
+  @UseGuards(GqlAuthGuard)
   async updateCategory(
     @Args('id', { type: () => String }) id: string,
     @Args('payload', { type: () => CategoryUpdateDto })
@@ -70,6 +74,7 @@ export class CategoriesResolver {
   }
 
   @Mutation((returns) => Category)
+  @UseGuards(GqlAuthGuard)
   async deleteCategory(
     @Args('id', { type: () => String }) id: string
   ): Promise<Category> {

@@ -3,12 +3,15 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { Post } from './post.entity'
 import { PostCreateDto, PostUpdateDto } from './post.dto'
 import { CategoryCreateDto } from 'src/categories/category.dto'
+import { UseGuards } from '@nestjs/common'
+import { GqlAuthGuard } from 'src/auth/guards/gql.guard'
 
 @Resolver((of) => Post)
 export class PostsResolver {
   constructor(private readonly prismaService: PrismaService) {}
 
   @Mutation((returns) => Post)
+  @UseGuards(GqlAuthGuard)
   async createPost(
     @Args('payload', { type: () => PostCreateDto }) payload: PostCreateDto,
     @Args('relations', { type: () => [CategoryCreateDto], nullable: true })
@@ -52,6 +55,7 @@ export class PostsResolver {
   }
 
   @Mutation((returns) => Post)
+  @UseGuards(GqlAuthGuard)
   async updatePost(
     @Args('id', { type: () => String }) id: string,
     @Args('payload', { type: () => PostUpdateDto }) payload: PostUpdateDto,
@@ -78,6 +82,7 @@ export class PostsResolver {
   }
 
   @Mutation((returns) => Post)
+  @UseGuards(GqlAuthGuard)
   async deletePost(
     @Args('id', { type: () => String }) id: string
   ): Promise<Post> {
