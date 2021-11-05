@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Field, Int, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
+import { Field, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
 
 @ObjectType('UserEntity')
 export class User {
@@ -19,10 +19,4 @@ export class User {
 
   @Field((type) => GraphQLISODateTime)
   updatedAt: Date
-}
-
-@ObjectType('JwtEntity')
-export class Jwt {
-  @Field()
-  jwt: string
 }

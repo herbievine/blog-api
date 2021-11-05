@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { UsersModule } from 'src/users/users.module'
 import { AuthService } from './auth.service'
-import { LocalStrategy } from './auth.strategy'
 import { JwtStrategy } from './jwt.strategy'
-import { AuthController } from './auth.controller'
 import { UsersService } from 'src/users/users.service'
+import { AuthResolver } from './auth.resolver'
 
 @Module({
   imports: [
@@ -22,10 +20,10 @@ import { UsersService } from 'src/users/users.service'
   providers: [
     PrismaService,
     JwtStrategy,
-    LocalStrategy,
     AuthService,
-    UsersService
+    UsersService,
+    AuthResolver
   ],
-  controllers: [AuthController]
+  exports: [AuthService]
 })
 export class AuthModule {}

@@ -14,12 +14,13 @@ import { AuthModule } from './auth/auth.module'
   imports: [
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
+      context: ({ req, res }) => ({ req, res }),
       cors: {
         origin:
           process.env.NODE_ENV === 'production'
             ? '.herbievine.com'
             : 'http://localhost:4000',
-        credentials: true
+        credentials: true,
       }
     }),
     ThrottlerModule.forRoot({

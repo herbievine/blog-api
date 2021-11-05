@@ -39,6 +39,11 @@ type UserEntity {
   updatedAt: DateTime!
 }
 
+type AuthenticatedUserEntity {
+  jwt: String!
+  user: UserEntity!
+}
+
 type Query {
   getPosts: [PostEntity!]!
   getPost(slug: String!): PostEntity!
@@ -53,7 +58,8 @@ type Mutation {
   createCategory(relations: [PostCreateDto!], payload: CategoryCreateDto!): CategoryEntity!
   updateCategory(payload: CategoryUpdateDto!, id: String!): CategoryEntity!
   deleteCategory(id: String!): CategoryEntity!
-  createUser(user: UserCreateDto!): UserEntity!
+  register(payload: UserCreateDto!): AuthenticatedUserEntity!
+  login(payload: UserLoginDto!): AuthenticatedUserEntity!
 }
 
 input CategoryCreateDto {
@@ -86,6 +92,11 @@ input CategoryUpdateDto {
 
 input UserCreateDto {
   name: String!
+  email: String!
+  password: String!
+}
+
+input UserLoginDto {
   email: String!
   password: String!
 }

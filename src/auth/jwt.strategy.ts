@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { UsersService } from 'src/users/users.service'
@@ -14,8 +14,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  async validate({ email }: { email: string }): Promise<Auth.CleanUser | null> {
-    const user = await this.usersService.getUser(email)
+  async validate(payload: Auth.DecodedJwt): Promise<Auth.CleanUser | null> {
+    const user = await this.usersService.getUser(payload.email)
 
     if (user) {
       const { password, ...rest } = user

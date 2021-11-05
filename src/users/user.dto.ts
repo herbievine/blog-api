@@ -15,3 +15,14 @@ export class UserCreateDto {
   @Field()
   password: string
 }
+
+@InputType('UserLoginDto')
+export class UserLoginDto {
+  @IsEmail()
+  @Field()
+  email: string
+
+  @IsString()
+  @Field()
+  password: string
+}

@@ -1,5 +1,5 @@
 import { User } from 'src/users/user.entity'
-import { Request as ExpressRequest } from 'express'
+import { Request as ExpressRequest, Response as ExpressResponse } from 'express'
 
 export namespace Auth {
   type CleanUser = Omit<User, 'password'>
@@ -14,7 +14,19 @@ export namespace Auth {
     password: string
   }
 
+  type DecodedJwt = {
+    id: string
+    email: string
+    iat: number
+    exp: number
+  }
+
   interface Request extends ExpressRequest {
     user?: User
+  }
+
+  interface GqlContext extends GraphQLExecutionContext {
+    req: ExpressRequest
+    res: ExpressResponse
   }
 }
