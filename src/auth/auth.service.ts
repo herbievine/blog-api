@@ -43,9 +43,12 @@ export class AuthService {
 
     const { id } = user
 
-    const jwt = await this.jwtService.signAsync({ id, email }, {
-      secret: process.env.JWT_SECRET
-    })
+    const jwt = await this.jwtService.signAsync(
+      { id, email },
+      {
+        secret: process.env.JWT_SECRET
+      }
+    )
 
     return {
       jwt,
@@ -60,7 +63,10 @@ export class AuthService {
 
     const user = await this.usersService.getUser(decoded.email)
 
-    const isValidPassword = await this.verifyPassword(user.password, decoded.password)
+    const isValidPassword = await this.verifyPassword(
+      user.password,
+      decoded.password
+    )
 
     if (user && isValidPassword) {
       return user
@@ -81,9 +87,12 @@ export class AuthService {
 
     const { id, email } = user
 
-    const jwt = await this.jwtService.signAsync({ id, email }, {
-      secret: process.env.JWT_SECRET
-    })
+    const jwt = await this.jwtService.signAsync(
+      { id, email },
+      {
+        secret: process.env.JWT_SECRET
+      }
+    )
 
     return {
       jwt,
@@ -91,7 +100,10 @@ export class AuthService {
     }
   }
 
-  private async verifyPassword(hashedPassword: string, password: string): Promise<boolean> {
+  private async verifyPassword(
+    hashedPassword: string,
+    password: string
+  ): Promise<boolean> {
     return await verify(hashedPassword, password)
   }
 

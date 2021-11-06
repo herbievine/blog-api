@@ -1,5 +1,11 @@
 import { Logger } from '@nestjs/common'
-import { Args, Context, GraphQLExecutionContext, Mutation, Resolver } from '@nestjs/graphql'
+import {
+  Args,
+  Context,
+  GraphQLExecutionContext,
+  Mutation,
+  Resolver
+} from '@nestjs/graphql'
 import { ForbiddenError } from 'apollo-server-express'
 import { UserCreateDto, UserLoginDto } from 'src/users/user.dto'
 import { User } from 'src/users/user.entity'
@@ -13,17 +19,17 @@ export class AuthResolver {
 
   @Mutation((returns) => AuthenticatedUser)
   async register(
-		@Context() context: Auth.GqlContext,
-		@Args('payload', { type: () => UserCreateDto }) payload: UserCreateDto,
-		@Args('password', { type: () => String }) password: string,
+    @Context() context: Auth.GqlContext,
+    @Args('payload', { type: () => UserCreateDto }) payload: UserCreateDto,
+    @Args('password', { type: () => String }) password: string
   ): Promise<AuthenticatedUser> {
-		if (password !== process.env.WEBSITE_PASSWORD) {
-			throw new ForbiddenError('Unauthorized access')
-		}
+    if (password !== process.env.WEBSITE_PASSWORD) {
+      throw new ForbiddenError('Unauthorized access')
+    }
 
-		const authenticatedUser = await this.authService.register(payload)
+    const authenticatedUser = await this.authService.register(payload)
 
-		context.res.cookie('jwt', authenticatedUser.jwt, {
+    context.res.cookie('jwt', authenticatedUser.jwt, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -32,17 +38,17 @@ export class AuthResolver {
         process.env.NODE_ENV === 'production' ? '.herbievine.com' : undefined
     })
 
-		return authenticatedUser
-	}
-	
-	@Mutation((returns) => AuthenticatedUser)
+    return authenticatedUser
+  }
+
+  @Mutation((returns) => AuthenticatedUser)
   async login(
-		@Context() context: Auth.GqlContext,
+    @Context() context: Auth.GqlContext,
     @Args('payload', { type: () => UserLoginDto }) payload: UserLoginDto
   ): Promise<AuthenticatedUser> {
-		const authenticatedUser = await this.authService.login(payload)
+    const authenticatedUser = await this.authService.login(payload)
 
-		context.res.cookie('jwt', authenticatedUser.jwt, {
+    context.res.cookie('jwt', authenticatedUser.jwt, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -51,6 +57,6 @@ export class AuthResolver {
         process.env.NODE_ENV === 'production' ? '.herbievine.com' : undefined
     })
 
-		return authenticatedUser
+    return authenticatedUser
   }
 }

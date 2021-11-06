@@ -1,14 +1,14 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
-import { PrismaService } from 'src/prisma/prisma.service'
 import { Post } from './post.entity'
 import { PostCreateDto, PostUpdateDto } from './post.dto'
 import { CategoryCreateDto } from 'src/categories/category.dto'
 import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/guards/gql.guard'
+import { PostsService } from './posts.service'
 
 @Resolver((of) => Post)
 export class PostsResolver {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @Mutation((returns) => Post)
   @UseGuards(GqlAuthGuard)
@@ -17,41 +17,19 @@ export class PostsResolver {
     @Args('relations', { type: () => [CategoryCreateDto], nullable: true })
     relations?: CategoryCreateDto[]
   ): Promise<Post> {
-    const { post } = this.prismaService
-
-    return post.create({
-      data: {
-        ...payload,
-        ...(!payload.slug && {
-          slug: payload.title.toLowerCase().replace(/ /g, '-')
-        }),
-        ...(relations && {
-          categories: {
-            connectOrCreate: relations.map((relation) => ({
-              where: { name: relation.name },
-              create: { ...relation }
-            }))
-          }
-        })
-      },
-      include: { categories: true }
-    })
+    return await this.postsService.createPost(payload, relations)
   }
 
   @Query((returns) => [Post])
-  async getPosts(): Promise<Post[]> {
-    const { post } = this.prismaService
-
-    return post.findMany({ include: { categories: true } })
+  async posts(): Promise<Post[]> {
+    return await this.postsService.getPosts()
   }
 
   @Query((returns) => Post)
-  async getPost(
+  async post(
     @Args('slug', { type: () => String }) slug: string
   ): Promise<Post | null> {
-    const { post } = this.prismaService
-
-    return post.findUnique({ where: { slug }, include: { categories: true } })
+    return await this.postsService.getPost(slug)
   }
 
   @Mutation((returns) => Post)
@@ -62,23 +40,7 @@ export class PostsResolver {
     @Args('relations', { type: () => [CategoryCreateDto], nullable: true })
     relations?: CategoryCreateDto[]
   ): Promise<Post> {
-    const { post } = this.prismaService
-
-    return post.update({
-      where: { id },
-      data: {
-        ...payload,
-        ...(relations && {
-          categories: {
-            connectOrCreate: relations.map((relation) => ({
-              where: { name: relation.name },
-              create: { ...relation }
-            }))
-          }
-        })
-      },
-      include: { categories: true }
-    })
+    return await this.postsService.updatePost(id, payload, relations)
   }
 
   @Mutation((returns) => Post)
@@ -86,11 +48,6 @@ export class PostsResolver {
   async deletePost(
     @Args('id', { type: () => String }) id: string
   ): Promise<Post> {
-    const { post } = this.prismaService
-
-    return post.delete({
-      where: { id },
-      include: { categories: true }
-    })
+    return await this.postsService.deletePost(id)
   }
 }
