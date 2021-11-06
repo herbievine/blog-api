@@ -8,7 +8,7 @@ import { User } from './user.entity'
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async getUser(
+  public async getUser(
     @Args('email', { type: () => String }) email: string
   ): Promise<User | null> {
     const { user } = this.prismaService
@@ -16,7 +16,7 @@ export class UsersService {
     return user.findUnique({ where: { email } })
   }
 
-  async createUser(
+  public async createUser(
     @Args('payload', { type: () => UserCreateDto }) payload: UserCreateDto
   ): Promise<User> {
     const { user } = this.prismaService

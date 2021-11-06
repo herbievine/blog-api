@@ -8,7 +8,7 @@ import { PostCreateDto, PostUpdateDto } from './post.dto'
 export class PostsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createPost(
+  public async createPost(
     payload: PostCreateDto,
 
     relations?: CategoryCreateDto[]
@@ -34,19 +34,19 @@ export class PostsService {
     })
   }
 
-  async getPosts(): Promise<Post[]> {
+  public async getPosts(): Promise<Post[]> {
     const { post } = this.prismaService
 
     return post.findMany({ include: { categories: true } })
   }
 
-  async getPost(slug: string): Promise<Post | null> {
+  public async getPost(slug: string): Promise<Post | null> {
     const { post } = this.prismaService
 
     return post.findUnique({ where: { slug }, include: { categories: true } })
   }
 
-  async updatePost(
+  public async updatePost(
     id: string,
     payload: PostUpdateDto,
 
@@ -58,7 +58,7 @@ export class PostsService {
       where: { id },
       data: {
         ...payload,
-        ...(!payload.slug && {
+        ...(!payload.slug && payload.title && {
           slug: payload.title.toLowerCase().replace(/ /g, '-')
         }),
         ...(relations && {
@@ -74,7 +74,7 @@ export class PostsService {
     })
   }
 
-  async deletePost(id: string): Promise<Post> {
+  public async deletePost(id: string): Promise<Post> {
     const { post } = this.prismaService
 
     return post.delete({

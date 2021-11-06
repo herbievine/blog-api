@@ -8,7 +8,7 @@ import { CategoryCreateDto, CategoryUpdateDto } from './category.dto'
 export class CategoriesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createCategory(
+  public async createCategory(
     payload: CategoryCreateDto,
 
     relations?: PostCreateDto[]
@@ -36,19 +36,19 @@ export class CategoriesService {
     })
   }
 
-  async getCategories(): Promise<Category[]> {
+  public async getCategories(): Promise<Category[]> {
     const { category } = this.prismaService
 
     return category.findMany({ include: { posts: true } })
   }
 
-  async getCategory(name: string): Promise<Category | null> {
+  public async getCategory(name: string): Promise<Category | null> {
     const { category } = this.prismaService
 
     return category.findUnique({ where: { name }, include: { posts: true } })
   }
 
-  async updateCategory(
+  public async updateCategory(
     id: string,
     payload: CategoryUpdateDto,
     relations?: PostCreateDto[]
@@ -77,7 +77,7 @@ export class CategoriesService {
     })
   }
 
-  async deleteCategory(id: string): Promise<Category> {
+  public async deleteCategory(id: string): Promise<Category> {
     const { category } = this.prismaService
 
     return category.delete({

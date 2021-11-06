@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     })
   }
 
-  async validate(payload: Auth.DecodedJwt): Promise<Auth.CleanUser | null> {
+  public async validate(payload: Auth.DecodedJwt): Promise<Auth.CleanUser | null> {
     const user = await this.usersService.getUser(payload.email)
 
     if (user) {
