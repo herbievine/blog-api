@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common'
-import { Category } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { toApolloError } from 'apollo-server-express'
 import { PostCreateDto } from 'src/posts/post.dto'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CategoryCreateDto, CategoryUpdateDto } from './category.dto'
+import { Category } from './category.entity'
 
 @Injectable()
 export class CategoriesService {
@@ -10,7 +11,6 @@ export class CategoriesService {
 
   public async createCategory(
     payload: CategoryCreateDto,
-
     relations?: PostCreateDto[]
   ): Promise<Category> {
     const { category } = this.prismaService
@@ -45,7 +45,18 @@ export class CategoriesService {
   public async getCategory(name: string): Promise<Category | null> {
     const { category } = this.prismaService
 
-    return category.findUnique({ where: { name }, include: { posts: true } })
+    const query = await category.findUnique({
+      where: { name },
+      include: { posts: true }
+    })
+
+    if (query === null) {
+      throw toApolloError(
+        new NotFoundException(`Category with name ${name} not found`)
+      )
+    }
+
+    return query
   }
 
   public async updateCategory(

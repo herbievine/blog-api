@@ -7,6 +7,7 @@ import { PostsModule } from './posts/posts.module'
 import { CategoriesModule } from './categories/categories.module'
 import { UsersModule } from './users/users.module'
 import { AuthModule } from './auth/auth.module'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AuthModule } from './auth/auth.module'
       ttl: 60,
       limit: 20
     }),
+    ConfigModule.forRoot(),
     PostsModule,
     CategoriesModule,
     UsersModule,

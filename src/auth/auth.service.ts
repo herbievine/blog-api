@@ -73,7 +73,7 @@ export class AuthService {
 
   private async hashPassword(password: string): Promise<string> {
     return await hash(password, {
-      // salt: Buffer.from(process.env.AUTH_SALT)
+      type: 2
     })
   }
 }

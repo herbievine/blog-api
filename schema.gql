@@ -58,7 +58,7 @@ type Mutation {
   createCategory(relations: [PostCreateDto!], payload: CategoryCreateDto!): CategoryEntity!
   updateCategory(relations: [PostCreateDto!], payload: CategoryUpdateDto!, id: String!): CategoryEntity!
   deleteCategory(id: String!): CategoryEntity!
-  register(password: String!, payload: UserCreateDto!): AuthenticatedUserEntity!
+  register(websitePassword: String!, payload: UserCreateDto!): AuthenticatedUserEntity!
   login(payload: UserLoginDto!): AuthenticatedUserEntity!
 }
 
