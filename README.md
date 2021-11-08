@@ -6,7 +6,11 @@
 
 - [x] Finish posts and category resolvers
 - [x] Add basic authentication
-- [ ] Add error handling
-- [x] Implement all auth in GraphQL
-- [ ] Increase performance (possibly fastify)
 - [x] Increase security
+- [x] Implement all auth in GraphQL
+- [ ] Add error handling
+- [ ] Increase performance (possibly fastify)
+
+### License
+
+Licensed under MIT License
