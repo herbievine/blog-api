@@ -5,5 +5,5 @@ export const cookieConfig: CookieOptions = {
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax',
   maxAge: 1000 * 60 * 60 * 24 * 30, // one month
-  domain: process.env.NODE_ENV === 'production' ? '.herbievine.com' : undefined
+  domain: process.env.NODE_ENV === 'production' ? '.marble.com' : undefined
 }

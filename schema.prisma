@@ -7,35 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id            String     @id @default(uuid())
-  title         String
-  slug          String     @unique
-  description   String
-  relativeImage String     @map("relative_image")
-  rawMdx        String     @map("raw_mdx")
-  published     Boolean    @default(true)
-  views         Int        @default(0)
-  likes         Int        @default(0)
-  createdAt     DateTime   @default(now()) @map("created_at")
-  updatedAt     DateTime   @updatedAt @map("updated_at")
-  categories    Category[]
-}
-
-model Category {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  color     String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  posts     Post[]
-}
-
 model User {
+  uuid         String        @id @default(uuid())
+  id           String        @unique
+  username     String?       @unique
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  transactions Transaction[]
+  department   Department    @relation(fields: [departmentId], references: [id])
+  departmentId String
+  school       School        @relation(fields: [schoolId], references: [id])
+  schoolId     String
+}
+
+model School {
+  id             String   @id @default(uuid())
+  usernamePolicy String
+  emailPolicy    String
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  users          User[]
+  emails         Email[]
+}
+
+model Email {
   id        String   @id @default(uuid())
-  name      String   @unique
-  email     String   @unique
-  password  String
+  suffix    String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [uuid])
+  userId    String
+}
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  amount    Int
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  users     User[]
 }

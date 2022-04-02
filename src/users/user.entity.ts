@@ -4,15 +4,13 @@ import { Field, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
 @ObjectType('UserEntity')
 export class User {
   @Field()
+  uuid: string
+
+  @Field()
   id: string
 
   @Field()
-  name: string
-
-  @Field()
-  email: string
-
-  password: string
+  username?: string
 
   @Field((type) => GraphQLISODateTime)
   createdAt: Date
