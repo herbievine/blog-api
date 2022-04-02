@@ -1,8 +1,9 @@
 import 'reflect-metadata'
 import { Field, ObjectType, GraphQLISODateTime } from '@nestjs/graphql'
+import { Post } from 'src/posts/post.entity'
 
-@ObjectType('UserEntity')
-export class User {
+@ObjectType('CategoryEntity')
+export class Category {
   @Field()
   id: string
 
@@ -10,9 +11,10 @@ export class User {
   name: string
 
   @Field()
-  email: string
+  color: string
 
-  password: string
+  @Field((type) => [Post], { nullable: true })
+  posts?: Post[]
 
   @Field((type) => GraphQLISODateTime)
   createdAt: Date
